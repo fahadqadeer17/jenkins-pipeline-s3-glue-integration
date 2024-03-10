@@ -1,0 +1,42 @@
+import sys
+from awsglue.transforms import *
+from awsglue.utils import getResolvedOptions
+from pyspark.context import SparkContext
+from awsglue.context import GlueContext
+from awsglue.job import Job
+
+args = getResolvedOptions(sys.argv, ["JOB_NAME"])
+sc = SparkContext()
+glueContext = GlueContext(sc)
+spark = glueContext.spark_session
+job = Job(glueContext)
+job.init(args["JOB_NAME"], args)
+
+# Script generated for node Source Amazon S3
+SourceAmazonS3_node1710067339719 = glueContext.create_dynamic_frame.from_options(
+    format_options={},
+    connection_type="s3",
+    format="parquet",
+    connection_options={
+        "paths": ["s3://jenkins-aws-glue-data-pipeline-test/transformed/"],
+        "recurse": True,
+    },
+    transformation_ctx="SourceAmazonS3_node1710067339719",
+)
+
+# Script generated for node Target Amazon S3
+TargetAmazonS3_node1710067426327 = glueContext.getSink(
+    path="s3://jenkins-aws-glue-data-pipeline-test/semantics/",
+    connection_type="s3",
+    updateBehavior="UPDATE_IN_DATABASE",
+    partitionKeys=[],
+    enableUpdateCatalog=True,
+    transformation_ctx="TargetAmazonS3_node1710067426327",
+)
+TargetAmazonS3_node1710067426327.setCatalogInfo(
+    catalogDatabase="jenkins_pipeline_test",
+    catalogTableName="electric_chargepoints_jenkins_test",
+)
+TargetAmazonS3_node1710067426327.setFormat("glueparquet", compression="snappy")
+TargetAmazonS3_node1710067426327.writeFrame(SourceAmazonS3_node1710067339719)
+job.commit()
