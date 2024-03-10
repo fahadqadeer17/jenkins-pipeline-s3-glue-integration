@@ -35,7 +35,7 @@ TargetAmazonS3_node1710067426327 = glueContext.getSink(
 )
 TargetAmazonS3_node1710067426327.setCatalogInfo(
     catalogDatabase="jenkins_pipeline_test",
-    catalogTableName="electric_chargepoints_jenkins_test",
+    catalogTableName="electric_chargepoints_jenkins",
 )
 TargetAmazonS3_node1710067426327.setFormat("glueparquet", compression="snappy")
 TargetAmazonS3_node1710067426327.writeFrame(SourceAmazonS3_node1710067339719)

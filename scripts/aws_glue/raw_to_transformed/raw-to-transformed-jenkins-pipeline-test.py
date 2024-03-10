@@ -4,7 +4,6 @@ from awsglue.utils import getResolvedOptions
 from pyspark.context import SparkContext
 from awsglue.context import GlueContext
 from awsglue.job import Job
-import gs_to_timestamp
 
 args = getResolvedOptions(sys.argv, ["JOB_NAME"])
 sc = SparkContext()
@@ -25,23 +24,17 @@ AmazonS3_node1710052918037 = glueContext.create_dynamic_frame.from_options(
     transformation_ctx="AmazonS3_node1710052918037",
 )
 
-# Script generated for node To Timestamp
-ToTimestamp_node1710054954011 = AmazonS3_node1710052918037.gs_to_timestamp(
-    colName="StartTime", colType="iso"
-)
-
 # Script generated for node Amazon S3
 AmazonS3_node1710055015451 = glueContext.write_dynamic_frame.from_options(
-    frame=ToTimestamp_node1710054954011,
+    frame=AmazonS3_node1710052918037,
     connection_type="s3",
     format="glueparquet",
     connection_options={
         "path": "s3://jenkins-aws-glue-data-pipeline-test/transformed/",
-        "partitionKeys": ["CPID"],
+        "partitionKeys": [],
     },
     format_options={"compression": "snappy"},
     transformation_ctx="AmazonS3_node1710055015451",
 )
 
 job.commit()
-
