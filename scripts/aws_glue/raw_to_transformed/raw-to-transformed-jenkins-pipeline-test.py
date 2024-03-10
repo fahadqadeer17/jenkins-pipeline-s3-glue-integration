@@ -44,3 +44,4 @@ AmazonS3_node1710055015451 = glueContext.write_dynamic_frame.from_options(
 )
 
 job.commit()
+
