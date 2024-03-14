@@ -30,16 +30,16 @@
 ![EC2 Instance Connect](/assets/images/ec2_instance_connect.png)
 
 - After connecting to EC2 instance, run all the following commands:
-    - sudo apt update
-    - sudo apt install openjdk-11-jre
-    - java -version
-    - sudo wget -O /usr/share/keyrings/jenkins-keyring.asc https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
-    - echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
-    - sudo apt-get update
-    - sudo apt-get install jenkins
-    - sudo systemctl enable jenkins
-    - sudo systemctl start jenkins
-    - sudo systemctl status jenkins
+    - `sudo apt update`
+    - `sudo apt install openjdk-11-jre`
+    - `java -version`
+    - `sudo wget -O /usr/share/keyrings/jenkins-keyring.asc https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key`
+    - `echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null`
+    - `sudo apt-get update`
+    - `sudo apt-get install jenkins`
+    - `sudo systemctl enable jenkins`
+    - `sudo systemctl start jenkins`
+    - `sudo systemctl status jenkins`
 
 - Next step is to verify the installation. But before that, we need to configure port 8080 of EC2 for Jenkins. To do that, navigate to appropriate security group attached and create an inbound rule for port 8080 as shown in image below:
 
@@ -57,7 +57,7 @@
 ### Step 2: Configure Jenkins and Create SSH key in GitHub
 #### Configure Jenkins
 - To unlock Jenkins, go to CMD and get the password saved on the server using "cat" command as shown below:
-    - sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+    - `sudo cat /var/lib/jenkins/secrets/initialAdminPassword`
 
 - Copy and paste the password in the browser - Jenkins webpage to unlock it:
 
@@ -78,14 +78,14 @@
 - After successfully configuring Jenkins, we will now integrate GitHub with Jenkins.
 
 #### Setup Github and Create SSH Key
-- Initially, we will create a rsa keypair on the server using "ssh-keygen" command. Press "Enter" three times to keep the key directory as default (/home/ubuntu/.ssh/id_rsa.pub):
+- Initially, we will create a rsa keypair on the server using `ssh-keygen` command. Press "Enter" three times to keep the key directory as default (/home/ubuntu/.ssh/id_rsa.pub):
 
 ![SSH Keygen CMD](/assets/images/ssh_keygen_cmd.png)
 
 - Run the following commands:
-    - cd .ssh
-    - ls
-    - sudo cat id_rsa.pub
+    - `cd .ssh`
+    - `ls`
+    - `sudo cat id_rsa.pub`
 
 - After navigating to ".ssh" folder, you will see the private and public key created. "id_rsa" is the private key and "id_rsa.pub" is the public key. Copy the public key (id_rsa.pub) which will be pasted in GitHub while adding a new SSH key:
 
@@ -177,17 +177,17 @@
 - Navigate to the home directory on your Ubuntu EC2 instance where Jenkins is running
 
 - Run the following command:
-    - curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo gpg --dearmor -o /etc/apt/keyrings/ngrok.gpg && echo "deb [signed-by=/etc/apt/keyrings/ngrok.gpg] https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list && sudo apt update && sudo apt install ngrok
+    - `curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo gpg --dearmor -o /etc/apt/keyrings/ngrok.gpg && echo "deb [signed-by=/etc/apt/keyrings/ngrok.gpg] https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list && sudo apt update && sudo apt install ngrok`
 
 - Sign up for an ngrok account at https://dashboard.ngrok.com/signup
 
 - After signup, go to your ngrok dashboard and copy the authtoken
 
 - On your EC2 instance, run the following command:
-    - ngrok config add-authtoken <TOKEN>
+    - `ngrok config add-authtoken <TOKEN>`
 
 - Start ngrok by running the following command:
-    - ngrok http http://localhost:8080
+    - `ngrok http http://localhost:8080`
 
 - On your console, you will see an output like below:
 
