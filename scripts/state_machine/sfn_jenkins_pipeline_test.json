@@ -1,0 +1,22 @@
+{
+    "Comment": "A description of my state machine",
+    "StartAt": "Glue Start Raw to Transformed Job",
+    "States": {
+        "Glue Start Raw to Transformed Job": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::glue:startJobRun.sync",
+            "Parameters": {
+                "JobName": "raw-to-transformed-jenkins-pipeline-test"
+            },
+            "Next": "Glue Start Transformed To Semantics Job"
+        },
+        "Glue Start Transformed To Semantics Job": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::glue:startJobRun.sync",
+            "Parameters": {
+                "JobName": "transformed-to-semantics-jenkins-pipeline-test"
+            },
+            "End": true
+        }
+    }
+}
